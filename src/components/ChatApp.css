@@ -145,3 +145,14 @@
 ::-webkit-scrollbar-thumb:hover {
     background: #d2b0cd85;
 }
+
+@media screen and (max-width: 767px) {
+    .chat-container {
+        width: 100%;
+        margin: 29px 10px;
+    }
+
+    .navbar {
+        width: 100%;
+    }
+}
