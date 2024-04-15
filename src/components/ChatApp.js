@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
+import { Picker } from 'emoji-mart'; // Import the Picker component from emoji-mart
 import './ChatApp.css';
-
-
 
 const user_list = ["Alan", "Bob", "Carol", "Dean", "Elin"];
 
 const ChatApp = () => {
     const [message, setMessage] = useState('');
+    const [showEmojiPicker, setShowEmojiPicker] = useState(false); // State to control emoji picker visibility
     const [chatMessages, setChatMessages] = useState([]);
 
     const handleMessageChange = (event) => {
@@ -21,12 +21,10 @@ const ChatApp = () => {
                 text: message,
                 likes: 0
             };
-            // Insert the new message at the beginning of the chatMessages array
             setChatMessages([newMessage, ...chatMessages]);
             setMessage('');
         }
     };
-
 
     const handleLikeMessage = (index) => {
         const updatedMessages = [...chatMessages];
@@ -40,8 +38,14 @@ const ChatApp = () => {
         return `https://ui-avatars.com/api/?name=${initials}&background=random`;
     };
 
-    return (
+    const handleEmojiSelect = (emoji) => {
+        setMessage(message + emoji.native); // Append selected emoji to the message
+        setShowEmojiPicker(false); // Hide the emoji picker
+    };
 
+
+
+    return (
         <div className="chat-container">
             <div className='message-list'>
                 {chatMessages.map((chat, index) => (
@@ -53,12 +57,12 @@ const ChatApp = () => {
                                 className="user-avatar"
                                 onError={(e) => { e.target.onerror = null; e.target.src = generatePlaceholderAvatar(chat.user); }}
                             />
+
                             <span><strong>{chat.user}:</strong></span>
                         </div>
                         <span className='chat-text'>{chat.text}</span>
                         <button onClick={() => handleLikeMessage(index)}>
-                            <span role="img" aria-label="heart">❤️</span>
-                            ({chat.likes})
+                            <span role="img" aria-label="heart">❤️</span> ({chat.likes})
                         </button>
                     </div>
                 ))}
@@ -71,12 +75,20 @@ const ChatApp = () => {
                     onChange={handleMessageChange}
                     placeholder="Type your message here..."
                 />
+                <button className="emoji-button" onClick={() => setShowEmojiPicker(!showEmojiPicker)}>
+                    😀
+                </button>
                 <button className="send-button" onClick={handleSendMessage}>Send</button>
             </div>
+            {showEmojiPicker && (
+                <Picker
+                    onSelect={handleEmojiSelect} // Handle emoji selection
+                    emojiSize={24} // Set the size of the emojis
+                    sheetSize={32} // Set the number of emojis per row
+                />
+            )}
         </div>
-
     );
-
 };
 
 export default ChatApp;
