@@ -1,0 +1,18 @@
+.navbar {
+    color: #fff;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: center;
+    background: linear-gradient(90deg in oklab, blue, red);
+}
+
+.navbar-logo h1 {
+    margin: 0;
+}
+
+.navbar-links {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+}
